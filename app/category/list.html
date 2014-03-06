@@ -1,0 +1,10 @@
+<section>
+    <h2>Categories</h2>
+    <div>
+        <div data-bind="foreach: items">
+            <div>
+                <a data-bind="html: title, attr: { href: '#category-edit/' + id }"></a>
+            </div>
+        </div>
+    </div>
+</section>
