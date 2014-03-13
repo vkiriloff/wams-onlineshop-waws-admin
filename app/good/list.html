@@ -1,6 +1,10 @@
 <section>
     <h2>Goods</h2>
     <div>
+        <div>
+            <label>Category</label>
+            <select data-bind="options: categories, optionsText: 'title', value: category, optionsCaption: 'Choose category...', event: { change: refresh }"></select>
+        </div>
         <table class="table">
             <thead>
                 <th>#</th>

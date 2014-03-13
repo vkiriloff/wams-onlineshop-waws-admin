@@ -9,11 +9,30 @@ define(function (require) {
 
     var model = {
         items: ko.observableArray([]),
+        categories: ko.observableArray([]),
+        category: ko.observable(''),
 
         activate: function() {
-            var table = client.getTable('good');
+            var tableCategory = client.getTable('category');
 
-            table.read().done(
+            tableCategory.read().done(
+                function (results) {
+                    model.categories(results);
+                },
+                function (error) {
+                    alert(error);
+                }
+            );
+        },
+        refresh: function() {
+            if (model.category() == undefined) {
+                model.items([]);
+                return;
+            }
+
+            var tableGood = client.getTable('good');
+
+            tableGood.where({ categoryId: model.category().id }).read().done(
                 function (results) {
                     model.items(results);
                 },
