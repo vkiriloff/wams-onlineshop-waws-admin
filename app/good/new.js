@@ -10,7 +10,7 @@ define(function (require) {
     var model = {
         categories: ko.observableArray([]),
 
-        categoryId: ko.observable(''),
+        category: ko.observable(''),
         title: ko.observable(''),
 
         activate: function() {
@@ -27,7 +27,7 @@ define(function (require) {
         create: function() {
             var entity = {
                 title: model.title(),
-                categoryId: model.categoryId().id
+                categoryId: model.category().id
             };
 
             var table = client.getTable('good');
