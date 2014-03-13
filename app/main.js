@@ -16,7 +16,7 @@ define(function (require) {
 
     system.debug(true);
 
-    app.title = 'Wallet Buddy';
+    app.title = 'Online Shop';
 
     app.configurePlugins({
         router: true,
