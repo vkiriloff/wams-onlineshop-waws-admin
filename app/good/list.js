@@ -32,7 +32,10 @@ define(function (require) {
 
             var tableGood = client.getTable('good');
 
-            tableGood.where({ categoryId: model.category().id }).read().done(
+            // where categoryId = 42
+            tableGood.where({
+                categoryId: model.category().id
+            }).read().done(
                 function (results) {
                     model.items(results);
                 },
