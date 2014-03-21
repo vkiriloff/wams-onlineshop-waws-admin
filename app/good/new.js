@@ -7,11 +7,25 @@ define(function (require) {
 
     var client = new WindowsAzure.MobileServiceClient(appUrl, appKey);
 
+    function handleFileSelect() {
+        var file = this.files[0];
+        model.imageType = file.type;
+        var reader = new FileReader();
+        reader.onload = (function(f) {
+            return function(e) {
+                model.image = e.target.result;
+            };
+        })(file);
+        reader.readAsBinaryString(file);
+    }
+
     var model = {
         categories: ko.observableArray([]),
 
         category: ko.observable(''),
         title: ko.observable(''),
+        image: null,
+        imageType: null,
 
         activate: function() {
             var table = client.getTable('category');
@@ -24,22 +38,43 @@ define(function (require) {
                     alert(error);
                 });
         },
+        compositionComplete: function() {
+            $("#file").change(handleFileSelect);
+        },
         create: function() {
-            var entity = {
-                title: model.title(),
-                categoryId: model.category().id
-            };
-
-            var table = client.getTable('good');
-
-            table.insert(entity).done(
-                function(result){
-                    alert('inserted');
+            client.invokeApi('fileupload', {
+                method: 'post',
+                body: {
+                    content: model.image
                 },
-                function(error) {
-                    alert(error);
+                parameters: {
+                    type: model.imageType
                 }
-            );
+            }).done(
+                function(data){
+                    alert(data.result.message);
+                },
+                function(data){
+                    alert(data.result.error);
+                });
+
+
+
+//            var entity = {
+//                title: model.title(),
+//                categoryId: model.category().id
+//            };
+//
+//            var table = client.getTable('good');
+//
+//            table.insert(entity).done(
+//                function(result){
+//                    alert('inserted');
+//                },
+//                function(error) {
+//                    alert(error);
+//                }
+//            );
         }
     };
 
