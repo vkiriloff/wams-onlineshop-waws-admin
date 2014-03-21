@@ -5,7 +5,13 @@ define(function (require) {
     var appUrl = 'https://webinar-onlineshop.azure-mobile.net/';
     var appKey = 'ZHNxhVbjQhZTzUcMuXVQpugLVCIEEv25';
 
-    var client = new WindowsAzure.MobileServiceClient(appUrl, appKey);
+
+    var masterKey = 'OXitusEIBdIZEeiUoYAIxbRFBbCFnw62';
+    var client = new WindowsAzure.MobileServiceClient(appUrl, appKey)
+        .withFilter(function(request, next, callback){
+            request.headers['X-ZUMO-MASTER'] = masterKey;
+            next(request, callback);
+        });
 
     var model = {
         title: ko.observable(''),
